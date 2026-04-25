@@ -5,12 +5,19 @@
 :root {
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: "Tiempos Headline", "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
+
+  --c-cream: #F4EFE6;
+  --c-cream-warm: #EDE6D7;
+  --c-cream-deep: #E5DCC8;
+  --c-ink: #0E1014;
+  --c-ink-soft: #1A1D24;
+  --c-leaf: #1F3A2E;
 }
 
 html,
 body {
-  background: #F4EFE6;
-  color: #0E1014;
+  background: var(--c-cream);
+  color: var(--c-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -21,69 +28,157 @@ body {
 
 ::selection {
   background: rgba(14, 16, 20, 0.85);
-  color: #F4EFE6;
+  color: var(--c-cream);
 }
 
-@layer base {
-  body {
-    font-feature-settings: "ss01", "cv11";
-  }
+body {
+  font-feature-settings: "ss01", "cv11";
 }
 
-@layer components {
+/* ----------------------------------------------------------------------
+ * Component classes — plain CSS to avoid any Tailwind @apply edge cases
+ * with custom theme keys (text-d1, bg-cream-warm, etc.).
+ * ---------------------------------------------------------------------- */
+
+.container-pg {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1240px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 1024px) {
   .container-pg {
-    @apply mx-auto w-full max-w-[1240px] px-6 lg:px-10;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
   }
+}
 
-  /* Buttons */
-  .btn-primary {
-    @apply inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3.5 text-[13px] font-medium tracking-wide text-cream uppercase transition-all duration-200 hover:bg-[#1A1D24];
-  }
-  .btn-light {
-    @apply inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream px-6 py-3.5 text-[13px] font-medium tracking-wide text-ink uppercase transition-all duration-200 hover:bg-[#EDE6D7];
-  }
-  .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-ink/75 transition hover:bg-ink/5;
-  }
-  .btn-pill-arrow {
-    @apply inline-flex items-center gap-2 rounded-full bg-ink px-7 py-4 text-[12px] font-medium uppercase tracking-[0.18em] text-cream transition-all hover:bg-[#1A1D24];
-  }
+/* Buttons */
+.btn-primary,
+.btn-light,
+.btn-pill-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
 
-  /* Eyebrow / chips */
-  .chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-ink/15 bg-cream/60 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-ink/70 backdrop-blur;
-  }
+.btn-primary {
+  background: var(--c-ink);
+  color: var(--c-cream);
+  padding: 0.875rem 1.5rem;
+  font-size: 13px;
+  letter-spacing: 0.025em;
+}
+.btn-primary:hover {
+  background: var(--c-ink-soft);
+}
 
-  /* Display headings */
-  .display-1 {
-    @apply font-display text-d1 text-ink;
-  }
-  .display-2 {
-    @apply font-display text-d2 text-ink;
-  }
-  .display-3 {
-    @apply font-display text-d3 text-ink;
-  }
+.btn-light {
+  background: var(--c-cream);
+  color: var(--c-ink);
+  border: 1px solid rgba(14, 16, 20, 0.15);
+  padding: 0.875rem 1.5rem;
+  font-size: 13px;
+  letter-spacing: 0.025em;
+}
+.btn-light:hover {
+  background: var(--c-cream-warm);
+}
 
-  /* Mockup surface (used by hero + feature blocks) */
-  .mock-frame {
-    @apply relative overflow-hidden rounded-[26px] border border-ink/10 bg-white shadow-lift;
-  }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  color: rgba(14, 16, 20, 0.75);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+.btn-ghost:hover {
+  background: rgba(14, 16, 20, 0.05);
+}
 
-  .panel-rounded {
-    @apply rounded-[36px];
-  }
+.btn-pill-arrow {
+  background: var(--c-ink);
+  color: var(--c-cream);
+  padding: 1rem 1.75rem;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+.btn-pill-arrow:hover {
+  background: var(--c-ink-soft);
+}
 
-  .grid-overlay {
-    background-image: linear-gradient(to right, rgba(14, 16, 20, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(14, 16, 20, 0.06) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
+/* Eyebrow / chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(14, 16, 20, 0.15);
+  background: rgba(244, 239, 230, 0.6);
+  padding: 0.375rem 0.75rem;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(14, 16, 20, 0.7);
+  backdrop-filter: blur(6px);
+}
 
-  .noise-bg {
-    background-image: radial-gradient(circle at 1px 1px, rgba(14, 16, 20, 0.06) 1px, transparent 0);
-    background-size: 14px 14px;
-  }
+/* Display headings (responsive clamp ramp) */
+.display-1,
+.display-2,
+.display-3 {
+  font-family: var(--font-display);
+  color: var(--c-ink);
+}
+.display-1 {
+  font-size: clamp(3rem, 7.2vw, 7.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+.display-2 {
+  font-size: clamp(2.4rem, 5.4vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+.display-3 {
+  font-size: clamp(2rem, 3.6vw, 3.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* Mockup window frame */
+.mock-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid rgba(14, 16, 20, 0.1);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(14, 16, 20, 0.05), 0 30px 60px -30px rgba(14, 16, 20, 0.35);
+}
+
+.panel-rounded {
+  border-radius: 36px;
+}
+
+.grid-overlay {
+  background-image: linear-gradient(to right, rgba(14, 16, 20, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(14, 16, 20, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.noise-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(14, 16, 20, 0.06) 1px, transparent 0);
+  background-size: 14px 14px;
 }
 
 /* Masked line reveal */
