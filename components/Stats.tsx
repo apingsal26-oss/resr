@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Reveal } from "./MotionPrimitives";
 
 const stats = [
   { value: 4.2, suffix: "x", label: "More qualified meetings booked per rep" },
@@ -12,9 +13,24 @@ const stats = [
 
 export function Stats() {
   return (
-    <section className="border-y border-white/10 bg-ink-soft py-20">
+    <section className="relative bg-leaf py-24 text-cream">
       <div className="container-pg">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+        <div className="grid items-end gap-10 md:grid-cols-2">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.2em] text-cream/80">
+              By the numbers
+            </span>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h2 className="font-display text-d3 text-balance text-cream">
+              Real teams,{" "}
+              <em className="font-display italic">measurable</em> impact in
+              the first 90 days.
+            </h2>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 grid grid-cols-2 gap-y-12 md:grid-cols-4 md:gap-x-10">
           {stats.map((s) => (
             <Stat key={s.label} {...s} />
           ))}
@@ -40,7 +56,7 @@ function Stat({
   useEffect(() => {
     if (!inView) return;
     const start = performance.now();
-    const dur = 1200;
+    const dur = 1400;
     let raf = 0;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / dur);
@@ -58,16 +74,16 @@ function Stat({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div className="font-display text-5xl font-normal tracking-tight text-cream sm:text-6xl">
+      <div className="font-display text-[64px] leading-none tracking-tightest sm:text-[80px]">
         {display}
-        <span className="text-cream/70">{suffix}</span>
+        <span className="text-cream/65">{suffix}</span>
       </div>
-      <p className="mt-3 max-w-[16ch] text-sm leading-snug text-cream/60">
+      <p className="mt-4 max-w-[18ch] text-[14px] leading-snug text-cream/65">
         {label}
       </p>
     </motion.div>

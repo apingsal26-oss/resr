@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 import Link from "next/link";
-import { Reveal, StaggerGroup, StaggerItem } from "./MotionPrimitives";
+import { useRef } from "react";
+import { MaskedLine, MaskedLineGroup, Reveal } from "./MotionPrimitives";
+import { MockShell, InboxMock } from "./ProductMock";
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -11,209 +12,134 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.04]);
+  const mockY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const mockRotate = useTransform(scrollYProgress, [0, 1], [0, -1.5]);
 
   return (
     <section
       ref={ref}
-      className="relative isolate overflow-hidden pt-32 pb-24 sm:pt-40 sm:pb-32"
+      className="relative isolate overflow-hidden pt-36 pb-16 sm:pt-44 sm:pb-24"
     >
-      {/* Aurora background */}
-      <motion.div
-        style={{ scale }}
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-hero-aurora"
-      />
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 -z-10 grid-overlay opacity-40 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]"
-      />
-      <FloatingOrbs />
+      {/* Soft pastel blobs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -left-32 top-24 h-[420px] w-[420px] animate-blob-1 rounded-full bg-blush/50 blur-3xl" />
+        <div className="absolute right-[-120px] top-10 h-[460px] w-[460px] animate-blob-2 rounded-full bg-sage/55 blur-3xl" />
+        <div className="absolute left-1/3 top-72 h-[380px] w-[380px] rounded-full bg-mustard/40 blur-3xl" />
+      </div>
 
-      <motion.div
-        style={{ y, opacity }}
-        className="container-pg relative flex flex-col items-center text-center"
-      >
-        <Reveal delay={0.05}>
-          <span className="eyebrow">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-pink shadow-[0_0_12px_2px_rgba(255,107,193,0.7)]" />
-            New · Pulseflow Signal Engine 2.0
-          </span>
-        </Reveal>
+      <div className="container-pg relative">
+        <div className="mx-auto max-w-5xl text-center">
+          <Reveal>
+            <span className="chip">
+              <span className="h-1.5 w-1.5 rounded-full bg-leaf" />
+              New · Pulseflow Signal Engine 2.0
+            </span>
+          </Reveal>
 
-        <StaggerGroup gap={0.06} delay={0.1} className="mt-7 max-w-5xl">
-          <StaggerItem>
-            <h1 className="text-balance text-5xl font-medium leading-[1.02] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px]">
-              <span className="block">Outbound that</span>
-              <span className="block">
-                <em className="font-display italic font-normal text-cream/95">
-                  thinks
-                </em>{" "}
-                for itself.
-              </span>
+          <MaskedLineGroup className="mt-7" delay={0.1} amount={0.4}>
+            <h1 className="display-1 text-balance">
+              <MaskedLine>The AI sales</MaskedLine>
+              <MaskedLine delay={0.05}>
+                platform that
+                <em className="font-display italic"> does</em>
+              </MaskedLine>
+              <MaskedLine delay={0.1}>the work.</MaskedLine>
             </h1>
-          </StaggerItem>
-          <StaggerItem>
-            <p className="mx-auto mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-cream/70 sm:text-xl">
+          </MaskedLineGroup>
+
+          <Reveal delay={0.55}>
+            <p className="mx-auto mt-7 max-w-2xl text-pretty text-[18px] leading-relaxed text-ink/70 sm:text-[19px]">
               Pulseflow researches every account, drafts the first message,
-              and sends only what is worth a reply. Your team handles the
-              relationships. The platform handles the rest.
+              and books the meetings most likely to close. Your team handles
+              the relationships. The platform handles the rest.
             </p>
-          </StaggerItem>
-          <StaggerItem>
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Link href="#demo" className="btn-primary">
+          </Reveal>
+
+          <Reveal delay={0.65}>
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+              <Link href="#demo" className="btn-pill-arrow">
                 Book a demo
-                <span aria-hidden>→</span>
+                <span aria-hidden className="text-base">→</span>
               </Link>
-              <Link href="#tour" className="btn-ghost">
+              <Link
+                href="#tour"
+                className="inline-flex items-center gap-3 rounded-full border border-ink/15 bg-cream/60 px-5 py-3.5 text-[13px] font-medium text-ink hover:bg-cream-warm"
+              >
                 <span
                   aria-hidden
-                  className="grid h-5 w-5 place-items-center rounded-full bg-white/10"
+                  className="grid h-7 w-7 place-items-center rounded-full bg-ink text-cream"
                 >
-                  ▶
+                  <PlayIcon />
                 </span>
-                Watch the tour
+                Watch the 90-second tour
               </Link>
             </div>
-          </StaggerItem>
-          <StaggerItem>
-            <p className="mt-6 text-xs uppercase tracking-[0.2em] text-cream/50">
-              Trusted by revenue teams at fast-growing companies
-            </p>
-          </StaggerItem>
-        </StaggerGroup>
+          </Reveal>
 
-        <Reveal delay={0.4} className="mt-16 w-full max-w-5xl">
-          <ProductPreview />
-        </Reveal>
-      </motion.div>
+          <Reveal delay={0.8}>
+            <p className="mt-6 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/55">
+              No credit card · Live on three of your real accounts
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Hero mockup */}
+        <motion.div
+          style={{ y: mockY, rotate: mockRotate }}
+          className="relative mx-auto mt-20 max-w-[1080px]"
+        >
+          <Reveal delay={0.4} y={48} amount={0.1}>
+            <MockShell toolbar="sage" url="app.pulseflow.io / inbox · live">
+              <InboxMock />
+            </MockShell>
+          </Reveal>
+          <FloatingPills />
+        </motion.div>
+      </div>
     </section>
   );
 }
 
-function FloatingOrbs() {
+function FloatingPills() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+    <>
       <motion.div
-        animate={{ y: [0, -18, 0], x: [0, 8, 0] }}
-        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-[10%] top-[20%] h-72 w-72 rounded-full bg-accent/30 blur-3xl"
-      />
+        initial={{ opacity: 0, y: 20, x: -20 }}
+        whileInView={{ opacity: 1, y: 0, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.9, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -left-4 top-24 hidden rounded-2xl border border-ink/10 bg-cream px-4 py-3 shadow-soft md:block"
+      >
+        <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-ink/55">
+          Account brief generated
+        </p>
+        <p className="mt-1 text-[13px] font-medium text-ink">
+          Northwind Logistics · 4 signals · 92 score
+        </p>
+      </motion.div>
       <motion.div
-        animate={{ y: [0, 22, 0], x: [0, -10, 0] }}
-        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-[8%] top-[10%] h-80 w-80 rounded-full bg-accent-pink/25 blur-3xl"
-      />
-      <motion.div
-        animate={{ y: [0, -14, 0] }}
-        transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-1/2 top-[60%] h-96 w-96 -translate-x-1/2 rounded-full bg-accent-amber/20 blur-3xl"
-      />
-    </div>
+        initial={{ opacity: 0, y: 20, x: 20 }}
+        whileInView={{ opacity: 1, y: 0, x: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.9, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute -right-4 top-44 hidden rounded-2xl border border-ink/10 bg-cream px-4 py-3 shadow-soft md:block"
+      >
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-leaf" />
+          <p className="text-[12px] font-medium text-ink">Meeting booked</p>
+        </div>
+        <p className="mt-1 text-[11.5px] text-ink/55">
+          Priya Shah · Tue 10:30 · Northwind
+        </p>
+      </motion.div>
+    </>
   );
 }
 
-function ProductPreview() {
+function PlayIcon() {
   return (
-    <div className="relative">
-      <div className="absolute -inset-px rounded-[28px] bg-gradient-to-b from-white/20 to-white/5 opacity-60 blur" />
-      <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-2xl shadow-black/40">
-        <div className="flex items-center gap-2 border-b border-white/10 bg-white/[0.04] px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <div className="ml-3 flex flex-1 items-center gap-2 rounded-full border border-white/10 bg-ink/60 px-3 py-1 text-[11px] text-cream/60">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            app.pulseflow.io / pipeline · live
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
-          <PreviewCard
-            kind="research"
-            title="Account brief"
-            subtitle="Northwind Logistics · Series C"
-            lines={[
-              "Hiring 12 AEs in Q2",
-              "Posted RFP for warehousing AI",
-              "CFO replied to last touch",
-            ]}
-            tone="from-accent/20 to-accent-violet/10"
-          />
-          <PreviewCard
-            kind="draft"
-            title="First draft"
-            subtitle="To: Priya Shah, VP Ops"
-            lines={[
-              "Saw the Atlanta DC announcement.",
-              "We help teams cut routing prep by 38%.",
-              "Worth a 12-min look next Tuesday?",
-            ]}
-            tone="from-accent-pink/25 to-accent/10"
-          />
-          <PreviewCard
-            kind="signal"
-            title="Live signals"
-            subtitle="Today · 14 new"
-            lines={[
-              "Acquia → new CRO appointed",
-              "Lattice → opening EU hub",
-              "Ramp → expanded to procurement",
-            ]}
-            tone="from-accent-amber/25 to-accent-pink/10"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PreviewCard({
-  kind,
-  title,
-  subtitle,
-  lines,
-  tone,
-}: {
-  kind: "research" | "draft" | "signal";
-  title: string;
-  subtitle: string;
-  lines: string[];
-  tone: string;
-}) {
-  const icon =
-    kind === "research" ? "◎" : kind === "draft" ? "✎" : "◈";
-  return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ type: "spring", stiffness: 250, damping: 22 }}
-      className={`relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${tone} p-5 backdrop-blur`}
-    >
-      <div className="flex items-center justify-between">
-        <span className="grid h-7 w-7 place-items-center rounded-lg border border-white/15 bg-ink/50 text-[13px] text-cream/80">
-          {icon}
-        </span>
-        <span className="text-[10px] uppercase tracking-[0.18em] text-cream/55">
-          {kind}
-        </span>
-      </div>
-      <div className="mt-4 text-left">
-        <p className="text-sm font-medium text-cream">{title}</p>
-        <p className="mt-0.5 text-xs text-cream/55">{subtitle}</p>
-        <ul className="mt-3 space-y-1.5">
-          {lines.map((l) => (
-            <li
-              key={l}
-              className="flex items-start gap-2 text-[13px] leading-snug text-cream/80"
-            >
-              <span className="mt-1 h-1 w-1 flex-none rounded-full bg-cream/40" />
-              {l}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
+    <svg width="9" height="9" viewBox="0 0 10 10" fill="currentColor">
+      <path d="M2 1.5v7l6.5-3.5z" />
+    </svg>
   );
 }

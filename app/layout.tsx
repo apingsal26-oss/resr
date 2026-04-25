@@ -1,15 +1,30 @@
 import type { Metadata } from "next";
+import { Inter, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 
+const sans = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Pulseflow — Outbound that thinks for itself",
+  title: "Pulseflow — The AI sales platform that does the work",
   description:
-    "Pulseflow is the AI-native revenue platform that researches accounts, writes the first draft, and sends only the messages worth reading.",
+    "Pulseflow is the AI-native revenue platform that researches accounts, writes the first draft, and books meetings with the people most likely to buy.",
   metadataBase: new URL("https://pulseflow.example.com"),
   openGraph: {
-    title: "Pulseflow — Outbound that thinks for itself",
+    title: "Pulseflow — The AI sales platform that does the work",
     description:
-      "AI-native revenue platform: research, write, deliver, and learn from every signal.",
+      "Research, write, deliver, learn. Pulseflow turns signals into pipeline.",
     type: "website",
   },
 };
@@ -20,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-ink text-cream antialiased">
+    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
+      <body className="min-h-screen bg-cream text-ink antialiased">
         {children}
       </body>
     </html>
