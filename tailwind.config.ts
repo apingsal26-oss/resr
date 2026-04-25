@@ -6,17 +6,13 @@ const config: Config = {
     extend: {
       colors: {
         // Page surfaces
-        cream: {
-          DEFAULT: "#F4EFE6",
-          warm: "#EDE6D7",
-          deep: "#E5DCC8",
-        },
-        ink: {
-          DEFAULT: "#0E1014",
-          soft: "#1A1D24",
-          muted: "#5C5F66",
-          subtle: "#8B8E96",
-        },
+        cream: "#F4EFE6",
+        "cream-warm": "#EDE6D7",
+        "cream-deep": "#E5DCC8",
+        ink: "#0E1014",
+        "ink-soft": "#1A1D24",
+        "ink-muted": "#5C5F66",
+        "ink-subtle": "#8B8E96",
         // Pastel accents (panel fills)
         sage: "#C9D7C2",
         blush: "#F2C8C0",
